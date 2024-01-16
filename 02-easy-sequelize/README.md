@@ -16,7 +16,7 @@ The project was created using the ECMAScript Modules (ESM) system as it aligns w
 1. Install dependencies
 
 ```sh
-cd 01-easy-expressjs
+cd 02-easy-sequelize
 npm install
 ```
 
