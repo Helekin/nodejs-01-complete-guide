@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+  <%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  <main>
+    <div class='container'>
+      <h1 class="my-2">Latest Products</h1>
+      <% if (prods.length > 0) { %>
+      <div class='row'>
+        <% for (let product of prods) { %>
+        <div class='col-md-3'>
+          <div class='card my-3 p-3 rounded'>
+            <a href='/product/<%= product.id %>'>
+              <img class='card-img-top img-fluid' src='<%= product.imageUrl %>' alt='<%= product.title %>' />
+            </a>
+            <div class='card-body'>
+              <h5 class='product-title'>
+                <strong><%= product.title %></strong>
+              </h5>
+              <p>
+                <%- include('../includes/rating.ejs', { value:product.rating, text:product.numReviews}) %>
+              </p>
+              <h3 class='card-text'><%= product.price %></h3>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <% } else { %>
+      <h1>No Products Found!</h1>
+
+      <% } %>
+    </div>
+
+  </main>
+  <%- include('../includes/end.ejs') %>
+</body>
+
+</html>

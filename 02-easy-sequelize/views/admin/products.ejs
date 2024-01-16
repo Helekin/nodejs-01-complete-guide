@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('../includes/head.ejs') %>
+</head>
+
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  <main>
+    <div class="container">
+      <% if (prods.length > 0) { %>
+      <div class="table-responsive">
+        <table class="table table-hover mt-4">
+          <thead>
+            <tr class="table-dark">
+              <th scope="col">Id</th>
+              <th scope="col">Title</th>
+              <th scope="col">Price</th>
+              <th scope="col">Brand</th>
+              <th scope="col">Rating</th>
+              <th scope="col">N° Reviews</th>
+              <th scope="col">Stock</th>
+              <th scope="col">Category</th>
+              <th scope="col">Is Visible</th>
+              <th scope="col">Created By</th>
+              <th scope="col">Created At</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (let product of prods) { %>
+            <tr>
+              <th scope="row"><%= product.id %></th>
+              <td class="product-title"><%= product.title %></td>
+              <td><%= product.price.toFixed(2) %></td>
+              <td class="brand-title"><%= product.brand %></td>
+              <td><%= product.rating %></td>
+              <td><%= product.numReviews %></td>
+              <td><%= product.countInStock %></td>
+              <td><%= product.category.title %></td>
+              <td><% if(product.isVisible) { %> Yes <% } else { %> No <% } %> </td>
+              <td class="created-by-title"><%= product.user.name %></td>
+              <td>
+                <%= product.createdAt.getDate() %>/<%=
+                  product.createdAt.getMonth() + 1 %>/<%=
+                  product.createdAt.getFullYear() %>
+              </td>
+              <td>
+                <div class="d-flex">
+                  <a href="/admin/products/edit-product/<%= product.id %>?edit=true" class="btn btn-primary mx-2">
+                    <i class="bi bi-pencil-fill"></i>
+                  </a>
+                  <button type="button" class="btn <% if(product.isVisible) { %>btn-danger<% } else { %>btn-success<% } %> mx-2" data-bs-toggle="modal" data-bs-target="<% if(product.isVisible) { %>#confirmHideModal<% } else { %>#confirmShowModal<% } %>">
+                    <% if(product.isVisible) { %><i class="bi bi-eye-slash-fill"></i><% } else { %><i class="bi bi-eye-fill"></i><% } %>
+                  </button>
+                </div>
+                <%- include('../includes/showModal.ejs', {field:"product", valueId:product.id, fieldName:"productId", fieldAction:"show-product"}) %>
+                <%- include('../includes/hideModal.ejs', {field:"product", valueId:product.id, fieldName:"productId", fieldAction:"hide-product"}) %>
+              </td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+      <% } else { %>
+      <h1>No Products Found!</h1>
+      <% } %>
+    </div>
+  </main>
+  <%- include('../includes/end.ejs') %>
+</body>
+
+</html>
