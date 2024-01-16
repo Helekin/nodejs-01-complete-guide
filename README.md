@@ -2,7 +2,7 @@
 
 Greetings! Here, you'll find a collection of exercises derived from the Udemy course "NodeJS - The Complete Guide (MVC, REST APIs, GraphQL, Deno)" by instructor Maximilian Schwarzmüller. The course was last updated in December 2023.
 
-- [Udemy Instructor](https://www.udemy.com/user/carlosarturo2/)
+- [Udemy Instructor](https://www.udemy.com/user/maximilian-schwarzmuller/)
 - [Udemy Course](https://www.udemy.com/user/maximilian-schwarzmuller/)
 
 ## Getting Started
