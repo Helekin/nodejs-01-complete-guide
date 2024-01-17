@@ -20,7 +20,18 @@ cd 02-easy-sequelize
 npm install
 ```
 
-2. Run the application in development mode
+2. Rename the `.env.example` file to `.env` and add the following
+
+```sh
+DATABASE_HOST="your_database_host"
+DATABASE_NAME="your_database_name"
+DATABASE_USERNAME="your_database_username"
+DATABASE_PASSWORD="your_database_password"
+COOKIE_SECRET="your_cookie_secret"
+JWT_SECRET="your_jwt_secret"
+```
+
+3. Run the application in development mode
 
 ```sh
 npm run dev

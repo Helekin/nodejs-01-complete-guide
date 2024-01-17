@@ -16,7 +16,7 @@
     <li class='list-group-item'>
         <div class='row'>
             <div class='col-md-2'>
-                <img src='${item.imageUrl}' alt='{item.title}' class='img-fluid' />
+                <img src='${item.imageUrl}' alt='${item.title}' class='img-fluid' />
             </div>
             <div class='col-md-3'>
                 <h5>${item.title}</h5>
@@ -25,7 +25,7 @@
                 $${item.price}
             </div>
             <div class='col-md-2'>
-                <select class='form-select' id='qty' name='qty'>
+                <select class='form-select' id='qty' name='qty' onchange='updateCartBySelectQty(${item.id}, this.value)'>
                     ${qtyOptions}
                 </select>
             </div>
@@ -41,7 +41,7 @@
   } else {
     document.write(`
 <div class='alert alert-dismissible alert-info'>
-    <strong>Your cart is Empty!</strong><a href='/' class='alert-link'>Go back to shop</a>
+    <strong>Your cart is Empty! </strong><a href='/' class='alert-link'>Go back to shop</a>
 </div>`);
   }
 </script>

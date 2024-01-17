@@ -61,4 +61,34 @@ function updateCartCount() {
   }
 }
 
+function updateCartBySelectQty(productId, selectedQty) {
+  const cartTotalPrice = JSON.parse(localStorage.getItem("cart"));
+
+  const product = cartTotalPrice.cartItems.find(
+    (item) => item.id === productId
+  );
+  product.qty = parseInt(selectedQty);
+
+  const subtotalHtml = `<div class='card'>
+    <ul class='list-group list-group-flush'>
+      <li class='list-group-item'>
+        <h2>Subtotal (${cartTotalPrice.cartItems.reduce(
+          (acc, item) => acc + item.qty,
+          0
+        )}) items</h2>
+      </li>
+      <li class='list-group-item'>
+        <h3>$ ${cartTotalPrice.cartItems
+          .reduce((acc, item) => acc + item.qty * item.price, 0)
+          .toFixed(2)}</h3>
+      </li>
+      <li class='list-group-item'>
+        <button type='button' class='btn btn-primary' onclick=''>Proceed To Checkout</button>
+      </li>
+    </ul>
+  </div>`;
+
+  document.getElementById("subtotalContainer").innerHTML = subtotalHtml;
+}
+
 updateCartCount();
