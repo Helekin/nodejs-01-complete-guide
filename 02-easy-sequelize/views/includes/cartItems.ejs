@@ -18,14 +18,14 @@
             <div class='col-md-2'>
                 <img src='${item.imageUrl}' alt='${item.title}' class='img-fluid' />
             </div>
-            <div class='col-md-3'>
+            <div class='col-md-2'>
                 <h5>${item.title}</h5>
             </div>
             <div class='col-md-2'>
                 $${item.price}
             </div>
-            <div class='col-md-2'>
-                <select class='form-select' id='qty' name='qty' onchange='updateCartBySelectQty(${item.id}, this.value)'>
+            <div class='col-md-3'>
+                <select class='form-select' id='qty' name='qty' onchange='updateCart(${item.id}, this.value)'>
                     ${qtyOptions}
                 </select>
             </div>

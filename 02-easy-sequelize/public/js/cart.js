@@ -12,6 +12,7 @@ function addDecimals(num) {
 
 function addToCart(product, qty) {
   let cart = localStorage.getItem("cart");
+
   cart = cart
     ? JSON.parse(cart)
     : { cartItems: [], shippingAddress: {}, paymentMethod: "Paypal" };
@@ -35,7 +36,7 @@ function addToCart(product, qty) {
 
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 10);
 
-  cart.taxPrice = addDecimals(Number(0.10 * cart.itemsPrice).toFixed(2));
+  cart.taxPrice = addDecimals(Number(0.1 * cart.itemsPrice).toFixed(2));
 
   cart.totalPrice = (
     Number(cart.itemsPrice) +
@@ -65,33 +66,69 @@ function updateCartCount() {
 }
 
 function updateCart(productId, selectedQty) {
-  const cartTotalPrice = JSON.parse(localStorage.getItem("cart"));
+  let cart = JSON.parse(localStorage.getItem("cart"));
 
-  const product = cartTotalPrice.cartItems.find(
-    (item) => item.id === productId
+  let existItem = cart.cartItems.find((item) => item.id === productId);
+
+  if (existItem) {
+    cart.cartItems = cart.cartItems.map((item) =>
+      item.id === existItem.id
+        ? { ...existItem, qty: Number(selectedQty) }
+        : item
+    );
+  }
+
+  cart.itemsPrice = addDecimals(
+    cart.cartItems.reduce((acc, item) => {
+      const totalPriceForItem = Number(item.price) * Number(item.qty);
+      return acc + totalPriceForItem;
+    }, 0)
   );
-  product.qty = parseInt(selectedQty);
 
-  const subtotalHtml = `<div class='card'>
-    <ul class='list-group list-group-flush'>
-      <li class='list-group-item'>
-        <h2>Subtotal (${cartTotalPrice.cartItems.reduce(
-          (acc, item) => acc + item.qty,
-          0
-        )}) items</h2>
-      </li>
-      <li class='list-group-item'>
-        <h3>$ ${cartTotalPrice.cartItems
-          .reduce((acc, item) => acc + item.qty * item.price, 0)
-          .toFixed(2)}</h3>
-      </li>
-      <li class='list-group-item'>
-        <button type='button' class='btn btn-primary' onclick=''>Proceed To Checkout</button>
-      </li>
-    </ul>
-  </div>`;
+  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 10);
 
-  document.getElementById("subtotalContainer").innerHTML = subtotalHtml;
+  cart.taxPrice = addDecimals(Number(0.1 * cart.itemsPrice).toFixed(2));
+
+  cart.totalPrice = (
+    Number(cart.itemsPrice) +
+    Number(cart.shippingPrice) +
+    Number(cart.taxPrice)
+  ).toFixed(2);
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  updateCartCount();
+  updateCartSubTotal();
+}
+
+function updateCartSubTotal() {
+  let cart = JSON.parse(localStorage.getItem("cart"));
+
+  let totalItems = 0;
+  let subTotal = 0;
+
+  if (cart && cart.cartItems) {
+    totalItems = cart.cartItems.reduce((count, item) => count + item.qty, 0);
+
+    subTotal = addDecimals(
+      cart.cartItems.reduce((acc, item) => {
+        const totalPriceForItem = Number(item.price) * Number(item.qty);
+        return acc + totalPriceForItem;
+      }, 0)
+    );
+  }
+
+  const totalItemsElement = document.getElementById("cart-total-items");
+  const subTotalElement = document.getElementById("cart-subtotal");
+
+  if (totalItemsElement) {
+    totalItemsElement.textContent =
+      "Subtotal (" + totalItems.toString() + ") items";
+  }
+
+  if (subTotalElement) {
+    subTotalElement.textContent = "$ " + subTotal.toString();
+  }
 }
 
 updateCartCount();

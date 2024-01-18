@@ -1,0 +1,35 @@
+<script>
+  const cartTotalPrice = JSON.parse(localStorage.getItem('cart'));
+
+  if (cartTotalPrice && cartTotalPrice.cartItems.length > 0) {
+    const subtotalHtml = `<div class='card'>
+            <ul class='list-group list-group-flush'>
+              <li class='list-group-item'>
+                <h2 id="cart-total-items">Subtotal (${cartTotalPrice.cartItems.reduce((acc, item) => acc + item.qty, 0)}) items</h2>
+              </li>
+              <li class='list-group-item'>
+                <h3 id="cart-subtotal">$ ${cartTotalPrice.cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</h3>
+                </li>
+              <li class='list-group-item'>
+                <a href="/" class='btn btn-primary'>Proceed To Checkout</a>
+                </li>
+            </ul>
+          </div>`
+    document.write(subtotalHtml);
+  }else{
+    const subtotalHtml = `<div class='card'>
+            <ul class='list-group list-group-flush'>
+              <li class='list-group-item'>
+                <h2>Subtotal (0) items</h2>
+              </li>
+              <li class='list-group-item'>
+                <h3>$ 0</h3>
+                </li>
+              <li class='list-group-item'>
+                <button type='button' class='btn btn-primary' disabled onclick=''>Proceed To Checkout</button>
+                </li>
+            </ul>
+          </div>`
+    document.write(subtotalHtml);
+  }
+</script>
