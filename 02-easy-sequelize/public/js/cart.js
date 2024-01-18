@@ -27,12 +27,15 @@ function addToCart(product, qty) {
   }
 
   cart.itemsPrice = addDecimals(
-    cart.cartItems.reduce((acc, item) => acc + item.price * qty, 0)
+    cart.cartItems.reduce((acc, item) => {
+      const totalPriceForItem = Number(item.price) * Number(item.qty);
+      return acc + totalPriceForItem;
+    }, 0)
   );
 
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 10);
 
-  cart.taxPrice = addDecimals(Number(0.15 * cart.itemsPrice).toFixed(2));
+  cart.taxPrice = addDecimals(Number(0.10 * cart.itemsPrice).toFixed(2));
 
   cart.totalPrice = (
     Number(cart.itemsPrice) +
@@ -61,7 +64,7 @@ function updateCartCount() {
   }
 }
 
-function updateCartBySelectQty(productId, selectedQty) {
+function updateCart(productId, selectedQty) {
   const cartTotalPrice = JSON.parse(localStorage.getItem("cart"));
 
   const product = cartTotalPrice.cartItems.find(
